@@ -1,14 +1,13 @@
 package gameRules;
 
 import java.util.ArrayList;
-import java.util.List;
 import model.Player;
 
 public class HighCardGameEvaluator implements GameEvaluator {
     @Override
-    public Player evaluateWinners(List<Player> players) {
-        List<Player> winners = new ArrayList<>();
-        int highestRankValue = -1; // Initialisation à une valeur qui ne correspond à aucune carte valide
+    public ArrayList<Player> evaluateWinners(ArrayList<Player> players) {
+        ArrayList<Player> winners = new ArrayList<>();
+        int highestRankValue = -1; // Initialisation à une valeur qui ne correspond à aucune carte valide (inferieur)
 
         // Trouver la carte la plus forte dans la main des joueurs
         for (Player player : players) {
@@ -29,6 +28,6 @@ public class HighCardGameEvaluator implements GameEvaluator {
 
         // Vous devrez décider comment gérer le cas où il y a plusieurs gagnants
         // Pour l'instant, nous renvoyons le premier gagnant trouvé
-        return winners.isEmpty() ? null : winners.get(0);
+        return winners;
     }
 }

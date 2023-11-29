@@ -38,7 +38,7 @@ public class GameController {
                 case AddingPlayer:
                     view.promptPlayerNames();
                     break;
-            
+
                 case CardsDealt:
                     view.promptCardDealt();
                     break;
@@ -46,7 +46,7 @@ public class GameController {
                 case WinnerRevealed:
                     view.promptWinners();
                     return;
-                    
+
             }
         }
     }
@@ -77,8 +77,8 @@ public class GameController {
         this.gameState = GameState.CardsDealt;
     }
 
-    public void evaluateWinners() {    
-        gameEvaluator.evaluateWinner(playerNames);
+    public void evaluateWinners() {
+        this.winners = gameEvaluator.evaluateWinners(playerNames);
     }
 
     public void addPlayer(String playerName) {

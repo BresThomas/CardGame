@@ -1,5 +1,6 @@
 import controller.GameController;
 import gameRules.HighCardGameEvaluator;
+import gameRules.LowCardGameEvaluator;
 import model.Deck;
 import view.View;
 
@@ -12,7 +13,7 @@ public class Main {
         Deck deck = new Deck();
 
         // Instancier le contrôleur et transmettre la vue
-        GameController gameController = new GameController(deck, gameView, new HighCardGameEvaluator());
+        GameController gameController = new GameController(deck, gameView, new LowCardGameEvaluator());
 
         // Lancer l'interaction
         gameController.run();

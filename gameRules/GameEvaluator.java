@@ -1,9 +1,9 @@
 package gameRules;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import model.Player;
 
 public interface GameEvaluator {
-    Player evaluateWinners(List<Player> players);
+    ArrayList<Player> evaluateWinners(ArrayList<Player> players);
 }
