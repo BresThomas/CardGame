@@ -21,7 +21,7 @@ public class Player {
         PlayingCard drawnCard = deck.drawCard();
         if (drawnCard != null) {
             hand.addCard(drawnCard);
-            System.out.println(name + " pioche une carte : " + drawnCard);
+            // System.out.println(name + " pioche une carte : " + drawnCard);
         } else {
             System.out.println("Impossible de piocher, le deck est vide.");
         }

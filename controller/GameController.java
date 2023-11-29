@@ -2,8 +2,11 @@ package controller;
 
 import model.Deck;
 import model.Player;
+import model.PlayingCard;
 import view.View;
 import java.util.ArrayList;
+
+import gameRules.GameEvaluator;
 
 public class GameController {
     private enum GameState{
@@ -17,36 +20,52 @@ public class GameController {
     View view;
     private ArrayList<Player> playerNames;
     private ArrayList<Player> winners;
+    private final GameEvaluator gameEvaluator;
 
-    public GameController(Deck deck, View view) {
+    public GameController(Deck deck, View view, GameEvaluator gameEvaluator) {
         this.deck = deck;
         this.view = view;
         this.view.setController(this);
         this.gameState = GameState.AddingPlayer;
         this.playerNames = new ArrayList<>();
+        this.winners = new ArrayList<>();
+        this.gameEvaluator = gameEvaluator;
     }
 
     public void run() {
         while (true) {
             switch (gameState) {
                 case AddingPlayer:
-                    promptPlayerNames();
+                    view.promptPlayerNames();
                     break;
             
                 case CardsDealt:
-                    view.showCardDealt();
+                    view.promptCardDealt();
                     break;
 
                 case WinnerRevealed:
-                    view.showWinners(winners);
+                    view.promptWinners();
                     return;
                     
             }
         }
     }
-    
-    public void startGame() {
 
+    public void flipCards() {
+        int i = 0;
+        // Retourner les cartes
+        for (Player player : playerNames) {
+            PlayingCard card = player.getHand().getCards().get(0);
+            card.flip();
+            view.showCardForPlayer(i, player.getName(), card.getRank().toString(), card.getColor().toString());
+            i++;
+        }
+
+        evaluateWinners();
+        this.gameState = GameState.WinnerRevealed;
+    }
+
+    public void startGame() {
         // Mélanger les cartes
         deck.shuffleDeck();
 
@@ -55,57 +74,28 @@ public class GameController {
             player.drawCard(deck);
         }
 
-        // Retourner les cartes
-        for (Player player : playerNames) {
-            player.getHand().getCards().get(0).flip();
-        }
-
         this.gameState = GameState.CardsDealt;
-
-        // Évaluer les gagnants
-        winners = evaluateWinners();
-
-        // Reconstituer le deck
-        for (Player player : playerNames) {
-            deck.returnCard(player.getHand().getCards().get(0));
-            player.getHand().getCards().clear();
-        }
-
-        this.gameState = GameState.WinnerRevealed;
-
     }
 
-    private ArrayList<Player> evaluateWinners() {
-        ArrayList<Player> winners = new ArrayList<>();
-        
-        int highestRankValue = -1; // Initialisation à une valeur qui ne correspond à aucune carte valide
-    
-        // Trouver la carte la plus forte dans la main des joueurs
-        for (Player player : playerNames) {
-            if (player.getHand().getCards().size() > 0) {
-                int currentRankValue = player.getHand().getCards().get(0).getRank().getValue();
-    
-                if (currentRankValue > highestRankValue) {
-                    // Nouvelle carte la plus forte trouvée, réinitialiser la liste des gagnants
-                    winners.clear();
-                    winners.add(player);
-                    highestRankValue = currentRankValue;
-                } else if (currentRankValue == highestRankValue) {
-                    // Ajouter un autre gagnant avec la même carte la plus forte
-                    winners.add(player);
-                }
-            }
-        }
-    
-        return winners;
+    public void evaluateWinners() {    
+        gameEvaluator.evaluateWinner(playerNames);
     }
 
     public void addPlayer(String playerName) {
         Player player = new Player(playerName);
         playerNames.add(player);
+        view.showPlayerName(player);
     }
 
-    public void promptPlayerNames() {
-        view.promptPlayerNames(); 
+    public void rebuildDeck() {
+        // Récupère toutes les cartes distribuées et les remet dans le paquet
+        for (Player player : playerNames) {
+            deck.returnCard(player.getHand().getCards().get(0));
+            player.getHand().getCards().clear();
+        }
+    }
+
+    public void displayWinner() {
+        view.showWinners(winners);
     }
 }
