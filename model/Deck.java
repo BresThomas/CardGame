@@ -36,7 +36,6 @@ public class Deck {
     }
 
     public void returnCard(PlayingCard card) {
-        card.flip();
         cards.add(card);
     }
 }

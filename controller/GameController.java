@@ -22,14 +22,14 @@ public class GameController {
     private ArrayList<Player> winners;
     private final GameEvaluator gameEvaluator;
 
-    public GameController(Deck deck, View view, GameEvaluator gameEvaluator) {
+    public GameController(Deck deck, View view, GameEvaluator _gameEvaluator) {
         this.deck = deck;
         this.view = view;
         this.view.setController(this);
         this.gameState = GameState.AddingPlayer;
         this.playerNames = new ArrayList<>();
         this.winners = new ArrayList<>();
-        this.gameEvaluator = gameEvaluator;
+        this.gameEvaluator = _gameEvaluator;
     }
 
     public void run() {
@@ -44,7 +44,7 @@ public class GameController {
                     break;
 
                 case WinnerRevealed:
-                    view.promptWinners();
+                    view.promptForNewGame();
                     return;
                     
             }
@@ -61,7 +61,9 @@ public class GameController {
             i++;
         }
 
-        evaluateWinners();
+        winners = evaluateWinners();
+        displayWinner();
+        rebuildDeck();
         this.gameState = GameState.WinnerRevealed;
     }
 
@@ -77,8 +79,8 @@ public class GameController {
         this.gameState = GameState.CardsDealt;
     }
 
-    public void evaluateWinners() {    
-        gameEvaluator.evaluateWinner(playerNames);
+    public ArrayList<Player> evaluateWinners() {    
+        return gameEvaluator.evaluateWinners(playerNames);
     }
 
     public void addPlayer(String playerName) {
@@ -90,12 +92,24 @@ public class GameController {
     public void rebuildDeck() {
         // Récupère toutes les cartes distribuées et les remet dans le paquet
         for (Player player : playerNames) {
-            deck.returnCard(player.getHand().getCards().get(0));
+            deck.returnCard(player.playCard());
             player.getHand().getCards().clear();
         }
     }
 
     public void displayWinner() {
         view.showWinners(winners);
+    }
+
+    public void restartGame() {
+
+        // Vider la liste des joueurs
+        playerNames.clear();
+
+        // Vider la liste des gagnants
+        winners.clear();
+
+        // Redémarrer le jeu
+        this.gameState = GameState.AddingPlayer;
     }
 }

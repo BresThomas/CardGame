@@ -6,7 +6,7 @@ import model.Player;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class View {
+public class View implements GameViewable{
     GameController gc;
     Scanner scanner = new Scanner(System.in);
     
@@ -25,14 +25,6 @@ public class View {
         String nextLine = scanner.nextLine();
         if (!nextLine.isEmpty()) {
             gc.flipCards();
-        }
-    }
-    
-    public void promptWinners() {
-        System.out.println("Si vous voulez afficher les gagnants, écrivez quelque chose : ");
-        String nextLine = scanner.nextLine();
-        if (!nextLine.isEmpty()) {
-            gc.displayWinner();
         }
     }
     
@@ -61,6 +53,18 @@ public class View {
             }
         } else {
             System.out.println("Aucun gagnant.");
+        }
+    }
+
+        public void promptForNewGame() {
+        System.out.println("Voulez-vous démarrer une nouvelle partie? (O/N)");
+        String input = scanner.nextLine().trim().toUpperCase();
+        if (input.equals("O")) {
+            System.out.println("test");
+            gc.startGame();
+        } else {
+            System.out.println("test");
+            gc.restartGame();
         }
     }
 }

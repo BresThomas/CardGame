@@ -27,10 +27,10 @@ public class Player {
         }
     }
 
-    public void playCard(PlayingCard card, Deck deck) {
-        hand.removeCard(card);
-        deck.returnCard(card);
-        System.out.println(name + " joue une carte : " + card);
+    public PlayingCard playCard() {
+        return hand.removeCard();
+        // deck.returnCard(card);
+        //System.out.println(name + " joue une carte : " + card);
     }
 
     public void showHand() {
