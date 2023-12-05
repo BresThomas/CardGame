@@ -38,7 +38,7 @@ public class GameController {
                 case AddingPlayer:
                     view.promptPlayerNames();
                     break;
-            
+
                 case CardsDealt:
                     view.promptCardDealt();
                     break;
@@ -46,7 +46,7 @@ public class GameController {
                 case WinnerRevealed:
                     view.promptForNewGame();
                     return;
-                    
+
             }
         }
     }
