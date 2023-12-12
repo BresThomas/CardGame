@@ -6,8 +6,9 @@ import model.Player;
 public class LowCardGameEvaluator implements GameEvaluator {
     @Override
     public ArrayList<Player> evaluateWinners(ArrayList<Player> players) {
+
         ArrayList<Player> winners = new ArrayList<>();
-        int highestRankValue = -1; // Initialisation à une valeur qui ne correspond à aucune carte valide
+        int highestRankValue = 14;
 
         // Trouver la carte la plus forte dans la main des joueurs
         for (Player player : players) {
@@ -26,6 +27,6 @@ public class LowCardGameEvaluator implements GameEvaluator {
             }
         }
 
-        return winners.isEmpty() ? null : winners;
+        return winners;
     }
 }

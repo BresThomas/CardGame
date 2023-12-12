@@ -26,8 +26,6 @@ public class HighCardGameEvaluator implements GameEvaluator {
             }
         }
 
-        // Vous devrez décider comment gérer le cas où il y a plusieurs gagnants
-        // Pour l'instant, nous renvoyons le premier gagnant trouvé
-        return winners.isEmpty() ? null : winners;
+        return winners;
     }
 }

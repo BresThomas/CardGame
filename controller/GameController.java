@@ -3,6 +3,7 @@ package controller;
 import model.Deck;
 import model.Player;
 import model.PlayingCard;
+import view.GameViewable;
 import view.View;
 import java.util.ArrayList;
 
@@ -17,14 +18,14 @@ public class GameController {
 
     GameState gameState;
     Deck deck;
-    View view;
+    private GameViewable view;
     private ArrayList<Player> playerNames;
     private ArrayList<Player> winners;
-    private final GameEvaluator gameEvaluator;
+    private GameEvaluator gameEvaluator;
 
-    public GameController(Deck deck, View view, GameEvaluator _gameEvaluator) {
+    public GameController(Deck deck,GameViewable _view, GameEvaluator _gameEvaluator) {
         this.deck = deck;
-        this.view = view;
+        this.view = _view;
         this.view.setController(this);
         this.gameState = GameState.AddingPlayer;
         this.playerNames = new ArrayList<>();
@@ -45,7 +46,7 @@ public class GameController {
 
                 case WinnerRevealed:
                     view.promptForNewGame();
-                    return;
+                    break;
 
             }
         }
@@ -61,13 +62,14 @@ public class GameController {
             i++;
         }
 
-        winners = evaluateWinners();
+        this.winners = evaluateWinners();
         displayWinner();
         rebuildDeck();
         this.gameState = GameState.WinnerRevealed;
     }
 
     public void startGame() {
+        
         // Mélanger les cartes
         deck.shuffleDeck();
 
@@ -79,8 +81,8 @@ public class GameController {
         this.gameState = GameState.CardsDealt;
     }
 
-    public ArrayList<Player> evaluateWinners() {    
-        return gameEvaluator.evaluateWinners(playerNames);
+    public ArrayList<Player> evaluateWinners() {
+        return this.gameEvaluator.evaluateWinners(this.playerNames);
     }
 
     public void addPlayer(String playerName) {
@@ -92,8 +94,7 @@ public class GameController {
     public void rebuildDeck() {
         // Récupère toutes les cartes distribuées et les remet dans le paquet
         for (Player player : playerNames) {
-            deck.returnCard(player.playCard());
-            player.getHand().getCards().clear();
+            deck.returnCard(player.getHand().removeCard());
         }
     }
 

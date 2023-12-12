@@ -60,10 +60,8 @@ public class View implements GameViewable{
         System.out.println("Voulez-vous démarrer une nouvelle partie? (O/N)");
         String input = scanner.nextLine().trim().toUpperCase();
         if (input.equals("O")) {
-            System.out.println("test");
             gc.startGame();
         } else {
-            System.out.println("test");
             gc.restartGame();
         }
     }
