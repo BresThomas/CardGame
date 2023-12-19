@@ -18,7 +18,7 @@ public class Player {
     }
 
     public void drawCard(Deck deck) {
-        PlayingCard drawnCard = deck.drawCard();
+        PlayingCardAdapter drawnCard = deck.drawCard();
         if (drawnCard != null) {
             hand.addCard(drawnCard);
             // System.out.println(name + " pioche une carte : " + drawnCard);
@@ -27,7 +27,7 @@ public class Player {
         }
     }
 
-    public PlayingCard playCard() {
+    public PlayingCardAdapter playCard() {
         return hand.removeCard();
         // deck.returnCard(card);
         //System.out.println(name + " joue une carte : " + card);

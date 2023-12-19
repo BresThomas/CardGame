@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Deck {
-    private ArrayList<PlayingCard> cards;
+    private ArrayList<PlayingCardAdapter> cards;
 
     public Deck() {
         cards = new ArrayList<>();
@@ -24,9 +24,9 @@ public class Deck {
         Collections.shuffle(cards);
     }
 
-    public PlayingCard drawCard() {
+    public PlayingCardAdapter drawCard() {
         if (!cards.isEmpty()) {
-            PlayingCard drawnCard = cards.remove(0);
+            PlayingCardAdapter drawnCard = cards.remove(0);
             drawnCard.flip();
             return drawnCard;
         } else {
@@ -35,7 +35,7 @@ public class Deck {
         }
     }
 
-    public void returnCard(PlayingCard card) {
+    public void returnCard(PlayingCardAdapter card) {
         cards.add(card);
     }
 }

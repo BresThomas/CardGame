@@ -56,7 +56,7 @@ public class GameController {
         int i = 0;
         // Retourner les cartes
         for (Player player : playerNames) {
-            PlayingCard card = player.getHand().getCards().get(0);
+            PlayingCardAdapter card = player.getHand().getCards().get(0);
             card.flip();
             view.showCardForPlayer(i, player.getName(), card.getRank().toString(), card.getColor().toString());
             i++;

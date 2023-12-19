@@ -1,6 +1,6 @@
 package model;
 
-public class Joker extends PlayingCard {
+public class Joker extends PlayingCardAdapter {
 
     public Joker() {
         super(null, null);

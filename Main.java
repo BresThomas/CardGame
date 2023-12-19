@@ -12,7 +12,7 @@ public class Main {
         GameSwing gameView = new GameSwing();
 
         // Instancier un deck
-        Deck deck = new Deck();
+        Deck deck = DeckFactory.makeDeck(DeckType.Normal);
 
         // Instancier le contrôleur et transmettre la vue
         GameController gameController = new GameController(deck, gameView, new LowCardGameEvaluator());

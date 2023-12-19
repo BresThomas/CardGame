@@ -1,6 +1,6 @@
 package model;
 
-public class PlayingCard {
+public class PlayingCard implements PlayableCard {
     private final Rank rank;
     private final Color color;
     private boolean faceUp;
